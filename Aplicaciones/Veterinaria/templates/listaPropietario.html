@@ -1,0 +1,247 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Listado de Propietarios</h1>
+
+<div class="row m-0">
+  <div class="col-md-5">
+    <div class="container w-100">
+      <form
+        class="border p-4"
+        action="/guardarPropietario/"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <h4 class="text-center">Agregar Propietarios</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="" class="form-label"> Pais</label>
+            <select
+              name="idPais_wt"
+              required
+              class="form-control m-1"
+              id="idPais_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for pais in paises %}
+              <option value="{{pais.idPais_wt}}">{{pais.nombre_wt}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="" class="form-label">Estado Civil</label>
+            <select
+              name="idEstadoCivil_wt"
+              required
+              class="form-control m-1"
+              id="idEstadoCivil_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for estado in estadoCivil %}
+              <option value="{{estado.idEstadoCivil_wt}}">
+                {{estado.descripcion_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Nombre</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Alexander"
+                value=""
+                name="nombre_wt"
+                id="nombre_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Apellido</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Tapia"
+                value=""
+                name="apellido_wt"
+                id="apellido_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Direccion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Latacunga"
+                value=""
+                name="direccion_wt"
+                id="direccion_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Telefono</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 00 0000 000"
+                value=""
+                name="telefono_wt"
+                id="telefono_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Correo</label>
+              <input
+                type="email"
+                required
+                class="form-control m-1"
+                placeholder="Ej. alguien@example.com"
+                value=""
+                name="correo_wt"
+                id="correo_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Cedula Identidad</label>
+              <input
+                accept="application/pdf"
+                type="file"
+                class="form-control m-1"
+                value=""
+                name="pdfCedula_wt"
+                id="pdfCedula_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-primary">
+            Guardar</button
+          >&nbsp;&nbsp;
+          <button type="reset" name="button" class="btn btn-outline-danger">
+            Cancelar
+          </button>
+        </center>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="container table-responsive">
+      <center>
+        <img src="{% static 'img/logog.jpg' %}" alt="" width="100px" />
+      </center>
+      <table class="table table-striped bordered">
+        <thead>
+          <tr class="table-success">
+            <th class="text-center" scope="col">Id</th>
+            <th class="text-center" scope="col">Nombre</th>
+            <th class="text-center" scope="col">Apellido</th>
+            <th class="text-center" scope="col">Direccion</th>
+            <th class="text-center" scope="col">Telefono</th>
+            <th class="text-center" scope="col">Correo</th>
+            <th class="text-center" scope="col">Pais</th>
+            <th class="text-center" scope="col">Estado Civil</th>
+            <th class="text-center" scope="col">Cedula PDF</th>
+            <th class="text-center" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for propietario in propietarios %}
+          <tr>
+            <td class="text-center">{{propietario.idPropietario_wt }}</td>
+            <td class="text-center">{{propietario.nombre_wt }}</td>
+            <td class="text-center">{{propietario.apellido_wt }}</td>
+            <td class="text-center">{{propietario.direccion_wt }}</td>
+            <td class="text-center">{{propietario.telefono_wt }}</td>
+            <td class="text-center">{{propietario.correo_wt }}</td>
+            <td class="text-center">{{propietario.pais_wt.nombre_wt}}</td>
+            <td class="text-center">
+              {{propietario.estadoCivil_wt.descripcion_wt}}
+            </td>
+            <td class="text-center">
+              {% if propietario.pdfCedula_wt %}
+              <a
+                href="{{propietario.pdfCedula_wt.url}}"
+                target="_blank"
+                class="btn btn-outline-primary"
+                >Ver</a
+              >
+              {% else %}
+              <b>No hay copia</b>
+              {% endif %}
+            </td>
+
+            <td class="text-center">
+              <a
+                href="/editarPropietario/{{propietario.idPropietario_wt}}"
+                class="btn btn-outline-warning m-1"
+                >Editar</a
+              >
+              <a
+                href="javascript:void(0);"
+                type="button"
+                class="btn btn-outline-danger m-1"
+                onclick="eliminarPropietario('/eliminarPropietario/{{propietario.idPropietario_wt}}');"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function eliminarPropietario(url) {
+    iziToast.question({
+      timeout: 15000,
+      close: true,
+      overlay: true,
+      displayMode: 'once',
+      id: 'question',
+      zindex: 999,
+      title: 'CONFIRMACIÓN',
+      message: '¿Está seguro de eliminar el Propietario seleccionado?',
+      position: 'center',
+      buttons: [
+        [
+          '<button><b>SI</b></button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+            window.location.href = url
+          },
+          true,
+        ],
+        [
+          '<button>NO</button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+          },
+        ],
+      ],
+    })
+  }
+</script>
+
+{% endblock %}

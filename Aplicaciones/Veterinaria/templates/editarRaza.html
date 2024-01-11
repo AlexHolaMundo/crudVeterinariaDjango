@@ -1,0 +1,102 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Editar Raza</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="border p-4" action="/actualizarRaza/" method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <div class="m-1">
+            <input
+              type="hidden"
+              required
+              class="form-control m-1"
+              placeholder=""
+              value="{{raza.idRaza_wt}}"
+              name="idRaza_wt"
+              id="idRaza_wt"
+            />
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Nombre</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Golden Retriever"
+                value="{{raza.nombre_wt}}"
+                name="nombre_wt"
+                id="nombre_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Descripcion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Perro"
+                value="{{raza.descripcion_wt}}"
+                name="descripcion_wt"
+                id="descripcion_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Origen</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Aleman"
+                value="{{raza.origen_wt}}"
+                name="origen_wt"
+                id="origen_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Esperanza de Vida</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 12"
+                value="{{raza.esperanzaVida_wt}}"
+                name="esperanzaVida_wt"
+                id="esperanzaVida_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="m-1">
+          <label for="" class="form-label m-1">Caracteristicas</label>
+          <textarea
+            class="form-control m-1"
+            required
+            placeholder="Ej. Inteligente"
+            rows="3"
+            name="caracteristica_wt"
+            id="caracteristica_wt"
+          >
+  {{raza.caracteristica_wt}}</textarea
+          >
+        </div>
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-success">
+            Actualizar</button
+          >&nbsp;&nbsp;
+          <a href="/listaRaza" class="btn btn-outline-danger"> Cancelar </a>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

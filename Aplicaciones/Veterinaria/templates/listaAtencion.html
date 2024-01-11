@@ -1,0 +1,198 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Listado de Atencion al cliente</h1>
+
+<div class="row m-0">
+  <div class="col-md-5">
+    <div class="container w-100">
+      <form class="border p-4" action="/guardarAtencion/" method="POST">
+        {% csrf_token %}
+        <h4 class="text-center">Agregar Atencion</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="" class="form-label">Mascotas</label>
+            <select
+              name="idMascota_wt"
+              required
+              class="form-control m-1"
+              id="idMascota_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for mascota in mascotas %}
+              <option value="{{mascota.idMascota_wt}}">
+                {{mascota.nombre_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="" class="form-label">Tipo de Atencion</label>
+            <select
+              name="idTipoAtencion_wt"
+              required
+              class="form-control m-1"
+              id="idTipoAtencion_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for tipo in tipoAtenciones %}
+              <option value="{{tipo.idTipoAtencion_wt}}">
+                {{tipo.especialidades_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Fecha</label>
+              <input
+                type="date"
+                required
+                class="form-control m-1"
+                value=""
+                name="fecha_wt"
+                id="fecha_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Descripcion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Tapia"
+                value=""
+                name="descripcion_wt"
+                id="descripcion_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Costo</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 10"
+                value=""
+                name="costo_wt"
+                id="costo_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Observaciones</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Ninguna"
+                value=""
+                name="observaciones_wt"
+                id="observaciones_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-primary">
+            Guardar</button
+          >&nbsp;&nbsp;
+          <button type="reset" name="button" class="btn btn-outline-danger">
+            Cancelar
+          </button>
+        </center>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="container table-responsive">
+      <center>
+        <img src="{% static 'img/logog.jpg' %}" alt="" width="100px" />
+      </center>
+      <table class="table table-striped bordered">
+        <thead>
+          <tr class="table-success">
+            <th class="text-center" scope="col">Id</th>
+            <th class="text-center" scope="col">Mascota</th>
+            <th class="text-center" scope="col">Tipo de Atencion</th>
+            <th class="text-center" scope="col">Fecha</th>
+            <th class="text-center" scope="col">Descripcion</th>
+            <th class="text-center" scope="col">Costo</th>
+            <th class="text-center" scope="col">Observaciones</th>
+            <th class="text-center" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for atencion in atenciones %}
+          <tr>
+            <td class="text-center">{{atencion.idAtencion_wt }}</td>
+            <td class="text-center">{{atencion.mascota_wt.nombre_wt }}</td>
+            <td class="text-center">
+              {{atencion.tipoAtencion_wt.especialidades_wt }}
+            </td>
+            <td class="text-center">{{atencion.fecha_wt }}</td>
+            <td class="text-center">{{atencion.descripcion_wt }}</td>
+            <td class="text-center">{{atencion.costo_wt }}</td>
+            <td class="text-center">{{atencion.observaciones_wt }}</td>
+            <td class="text-center">
+              <a
+                href="/editarAtencion/{{atencion.idAtencion_wt}}"
+                class="btn btn-outline-warning m-1"
+                >Editar</a
+              >
+              <a
+                href="javascript:void(0);"
+                type="button"
+                class="btn btn-outline-danger m-1"
+                onclick="eliminarAtencion('/eliminarAtencion/{{atencion.idAtencion_wt}}');"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function eliminarAtencion(url) {
+    iziToast.question({
+      timeout: 15000,
+      close: true,
+      overlay: true,
+      displayMode: 'once',
+      id: 'question',
+      zindex: 999,
+      title: 'CONFIRMACIÓN',
+      message: '¿Está seguro de eliminar la Atencion seleccionada?',
+      position: 'center',
+      buttons: [
+        [
+          '<button><b>SI</b></button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+            window.location.href = url
+          },
+          true,
+        ],
+        [
+          '<button>NO</button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+          },
+        ],
+      ],
+    })
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Editar Mascota</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form
+        class="border p-4"
+        action="/actualizarMascota/"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <div class="row">
+          <input
+            type="hidden"
+            required
+            class="form-control m-1"
+            value="{{mascota.idMascota_wt}}"
+            name="idMascota_wt"
+            id="idMascota_wt"
+          />
+          <div class="col-md-6">
+            <label for="" class="form-label"> Propietario</label>
+            <select
+              name="idPropietario_wt"
+              required
+              class="form-control m-1"
+              id="idPropietario_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for propietario in propietarios %}
+              <option value="{{propietario.idPropietario_wt}}">
+                {{propietario.nombre_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="" class="form-label">Raza</label>
+            <select
+              name="idRaza_wt"
+              required
+              class="form-control m-1"
+              id="idRaza_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for raza in razas %}
+              <option value="{{raza.idRaza_wt}}">{{raza.nombre_wt}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <script>
+          document.getElementById('idPropietario_wt').value =
+            '{{mascota.propietario_wt.idPropietario_wt}}'
+
+          document.getElementById('idRaza_wt').value =
+            '{{mascota.raza_wt.idRaza_wt}}'
+        </script>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Nombre</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Candy"
+                value="{{mascota.nombre_wt}}"
+                name="nombre_wt"
+                id="nombre_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Especie</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Canino"
+                value="{{mascota.especie_wt}}"
+                name="especie_wt"
+                id="especie_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Edad</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 5"
+                value="{{mascota.edad_wt}}"
+                name="edad_wt"
+                id="edad_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Peso</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 24 Kg"
+                value="{{mascota.peso_wt}}"
+                name="peso_wt"
+                id="peso_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Imagen Actual</label>
+              {% if mascota.imgMascota_wt %}
+              <a href="{{mascota.imgMascota_wt.url}}" target="_blank">
+                <img src="{{mascota.imgMascota_wt.url}}" alt="" width="100" />
+              </a>
+              {% else %}
+              <b>No existe imagen</b>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1"
+                >Actualizar Foto (Opcional)</label
+              >
+              <input
+                type="file"
+                accept="image/*"
+                class="form-control m-1"
+                name="imgMascota_wt"
+                id="imgMascota_wt"
+              />
+            </div>
+          </div>
+        </div>
+
+        <center class="M-4">
+          <button type="submit" name="button" class="btn btn-outline-success">
+            Actualizar</button
+          >&nbsp;&nbsp;
+          <a href="/listaMascota" class="btn btn-outline-danger"> Cancelar </a>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

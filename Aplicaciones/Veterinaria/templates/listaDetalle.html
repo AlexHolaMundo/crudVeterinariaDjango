@@ -1,0 +1,183 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Listado de Detalles</h1>
+
+<div class="row m-0">
+  <div class="col-md-5">
+    <div class="container w-100">
+      <form class="border p-4" action="/guardarDetalle/" method="POST">
+        {% csrf_token %}
+        <h4 class="text-center">Agregar Detalles</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="" class="form-label">Receta</label>
+            <select
+              name="idReceta_wt"
+              required
+              class="form-control m-1"
+              id="idReceta_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for receta in recetas %}
+              <option value="{{receta.idReceta_wt}}">
+                {{receta.dosis_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="" class="form-label">Medicamento</label>
+            <select
+              name="idMedicamento_wt"
+              required
+              class="form-control m-1"
+              id="idMedicamento_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for medicamento in medicamentos %}
+              <option value="{{medicamento.idMedicamento_wt}}">
+                {{medicamento.nombre_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Precio Unitario</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 5.00"
+                value=""
+                name="precioUnitario_wt"
+                id="precioUnitario_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Descuento</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 1.00"
+                value=""
+                name="descuento_wt"
+                id="descuento_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Subtotal</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 4.00"
+                value=""
+                name="subtotal_wt"
+                id="subtotal_wt"
+              />
+            </div>
+          </div>
+        </div>
+
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-primary">
+            Guardar</button
+          >&nbsp;&nbsp;
+          <button type="reset" name="button" class="btn btn-outline-danger">
+            Cancelar
+          </button>
+        </center>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="container table-responsive">
+      <center>
+        <img src="{% static 'img/logog.jpg' %}" alt="" width="100px" />
+      </center>
+      <table class="table table-striped bordered">
+        <thead>
+          <tr class="table-success">
+            <th class="text-center" scope="col">Id</th>
+            <th class="text-center" scope="col">Receta</th>
+            <th class="text-center" scope="col">Medicamento</th>
+            <th class="text-center" scope="col">Precio Unitario</th>
+            <th class="text-center" scope="col">Descuento</th>
+            <th class="text-center" scope="col">Subtotal</th>
+            <th class="text-center" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for detalle in detalles %}
+          <tr>
+            <td class="text-center">{{detalle.idDetalle_wt }}</td>
+            <td class="text-center">{{detalle.receta_wt.dosis_wt }}</td>
+            <td class="text-center">{{detalle.medicamento_wt.nombre_wt }}</td>
+            <td class="text-center">{{detalle.precioUnitario_wt }}</td>
+            <td class="text-center">{{detalle.descuento_wt }}</td>
+            <td class="text-center">{{detalle.subtotal_wt }}</td>
+
+            <td class="text-center">
+              <a
+                href="/editarDetalle/{{detalle.idDetalle_wt}}"
+                class="btn btn-outline-warning m-1"
+                >Editar</a
+              >
+              <a
+                href="javascript:void(0);"
+                type="button"
+                class="btn btn-outline-danger m-1"
+                onclick="eliminarDetalle('/eliminarDetalle/{{detalle.idDetalle_wt}}');"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function eliminarDetalle(url) {
+    iziToast.question({
+      timeout: 15000,
+      close: true,
+      overlay: true,
+      displayMode: 'once',
+      id: 'question',
+      zindex: 999,
+      title: 'CONFIRMACIÓN',
+      message: '¿Está seguro de eliminar el Detalle seleccionado?',
+      position: 'center',
+      buttons: [
+        [
+          '<button><b>SI</b></button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+            window.location.href = url
+          },
+          true,
+        ],
+        [
+          '<button>NO</button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+          },
+        ],
+      ],
+    })
+  }
+</script>
+
+{% endblock %}

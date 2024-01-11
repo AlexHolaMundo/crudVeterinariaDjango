@@ -1,0 +1,138 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Editar Pais</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form
+        class="border p-4"
+        action="/actualizarPais/"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <div class="row">
+          <input
+            type="hidden"
+            required
+            class="form-control m-1"
+            value="{{pais.idPais_wt}}"
+            name="idPais_wt"
+            id="idPais_wt"
+          />
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Nombre</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Ecuador"
+                value="{{pais.nombre_wt}}"
+                name="nombre_wt"
+                id="nombre_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Capital</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Quito"
+                value="{{pais.capital_wt}}"
+                name="capital_wt"
+                id="capital_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Poblacion</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 1000000000"
+                value="{{pais.poblacion_wt}}"
+                name="poblacion_wt"
+                id="poblacion_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Idioma</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Castellano"
+                value="{{pais.idioma_wt}}"
+                name="idioma_wt"
+                id="idioma_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Moneda</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Dolar"
+                value="{{pais.moneda_wt}}"
+                name="moneda_wt"
+                id="moneda_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Bandera Actual</label>
+              {% if pais.imgBandera_wt %}
+              <a href="{{ pais.imgBandera_wt.url }}" target="_blank">
+                <img
+                  src="{{ pais.imgBandera_wt.url }}"
+                  alt="Bandera Actual"
+                  style="max-width: 200px; max-height: 200px"
+                />
+              </a>
+              {% else %}
+              <b>No hay bandera asociada</b>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1"
+                >Actualizar Bandera (opcional)</label
+              >
+              <input
+                type="file"
+                accept="image/*"
+                class="form-control m-1"
+                name="imgBandera_wt"
+                id="imgBandera_wt"
+              />
+            </div>
+          </div>
+        </div>
+
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-success">
+            Actualizar</button
+          >&nbsp;&nbsp;
+          <a href="/listaPais" class="btn btn-outline-danger"> Cancelar </a>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

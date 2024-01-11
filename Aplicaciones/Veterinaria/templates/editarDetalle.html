@@ -1,0 +1,115 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Editar Detalles</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="border p-4" action="/actualizarDetalle/" method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <input
+            type="hidden"
+            required
+            class="form-control m-1"
+            value="{{detalle.idDetalle_wt}}"
+            name="idDetalle_wt"
+            id="idDetalle_wt"
+          />
+          <div class="col-md-6">
+            <label for="" class="form-label">Receta</label>
+            <select
+              name="idReceta_wt"
+              required
+              class="form-control m-1"
+              id="idReceta_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for receta in recetas %}
+              <option value="{{receta.idReceta_wt}}">
+                {{receta.dosis_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="" class="form-label">Medicamento</label>
+            <select
+              name="idMedicamento_wt"
+              required
+              class="form-control m-1"
+              id="idMedicamento_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for medicamento in medicamentos %}
+              <option value="{{medicamento.idMedicamento_wt}}">
+                {{medicamento.nombre_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <script>
+          document.getElementById('idReceta_wt').value =
+            '{{detalle.receta_wt.idReceta_wt}}'
+
+          document.getElementById('idMedicamento_wt').value =
+            '{{detalle.medicamento_wt.idMedicamento_wt}}'
+        </script>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Precio Unitario</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 5.00"
+                value="{{detalle.precioUnitario_wt}}"
+                name="precioUnitario_wt"
+                id="precioUnitario_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Descuento</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 1.00"
+                value=" {{detalle.descuento_wt}}"
+                name="descuento_wt"
+                id="descuento_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Subtotal</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 4.00"
+                value="{{detalle.subtotal_wt}}"
+                name="subtotal_wt"
+                id="subtotal_wt"
+              />
+            </div>
+          </div>
+        </div>
+
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-success">
+            Actualizar</button
+          >&nbsp;&nbsp;
+          <a href="/listaDetalle" class="btn btn-outline-danger"> Cancelar </a>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

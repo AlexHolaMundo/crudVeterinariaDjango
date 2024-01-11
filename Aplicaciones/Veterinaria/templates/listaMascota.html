@@ -1,0 +1,231 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Listado de Mascotas</h1>
+
+<div class="row m-0">
+  <div class="col-md-5">
+    <div class="container w-100">
+      <form
+        class="border p-4"
+        action="/guardarMascota/"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <h4 class="text-center">Agregar Mascotas</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="" class="form-label"> Propietario</label>
+            <select
+              name="idPropietario_wt"
+              required
+              class="form-control m-1"
+              id="idPropietario_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for propietario in propietarios %}
+              <option value="{{propietario.idPropietario_wt}}">
+                {{propietario.nombre_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="" class="form-label">Raza</label>
+            <select
+              name="idRaza_wt"
+              required
+              class="form-control m-1"
+              id="idRaza_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for raza in razas %}
+              <option value="{{raza.idRaza_wt}}">{{raza.nombre_wt}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Nombre</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Candy"
+                value=""
+                name="nombre_wt"
+                id="nombre_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Especie</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Canino"
+                value=""
+                name="especie_wt"
+                id="especie_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Edad</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 5"
+                value=""
+                name="edad_wt"
+                id="edad_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Peso</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 24 Kg"
+                value=""
+                name="peso_wt"
+                id="peso_wt"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="m-1">
+                <label for="" class="form-label m-1">Imagen Mascota</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  class="form-control m-1"
+                  value=""
+                  name="imgMascota_wt"
+                  id="imgMascota_wt"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-primary">
+            Guardar</button
+          >&nbsp;&nbsp;
+          <button type="reset" name="button" class="btn btn-outline-danger">
+            Cancelar
+          </button>
+        </center>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="container table-responsive">
+      <center>
+        <img src="{% static 'img/logog.jpg' %}" alt="" width="100px" />
+      </center>
+      <table class="table table-striped bordered">
+        <thead>
+          <tr class="table-success">
+            <th class="text-center" scope="col">Id</th>
+            <th class="text-center" scope="col">Nombre</th>
+            <th class="text-center" scope="col">Especie</th>
+            <th class="text-center" scope="col">Edad</th>
+            <th class="text-center" scope="col">Peso</th>
+            <th class="text-center" scope="col">Propietario</th>
+            <th class="text-center" scope="col">Raza</th>
+            <th class="text-center" scope="col">Imagen</th>
+            <th class="text-center" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for mascota in mascotas %}
+          <tr>
+            <td class="text-center">{{mascota.idMascota_wt }}</td>
+            <td class="text-center">{{mascota.nombre_wt }}</td>
+            <td class="text-center">{{mascota.especie_wt }}</td>
+            <td class="text-center">{{mascota.edad_wt }}</td>
+            <td class="text-center">{{mascota.peso_wt }}</td>
+            <td class="text-center">{{mascota.propietario_wt.nombre_wt}}</td>
+            <td class="text-center">{{mascota.raza_wt.nombre_wt}}</td>
+            <td>
+              {% if mascota.imgMascota_wt %}
+              <a href="{{mascota.imgMascota_wt.url}}" target="blank">
+                <img
+                  src="{{mascota.imgMascota_wt.url}}"
+                  alt=""
+                  width="50px"
+                  height="50px"
+                />
+              </a>
+              {% else %}
+              <b>No existe Imagen</b>
+              {% endif %}
+            </td>
+            <td class="text-center">
+              <a
+                href="/editarMascota/{{mascota.idMascota_wt}}"
+                class="btn btn-outline-warning m-1"
+                >Editar</a
+              >
+              <a
+                href="javascript:void(0);"
+                type="button"
+                class="btn btn-outline-danger m-1"
+                onclick="eliminarMascota('/eliminarMascota/{{mascota.idMascota_wt}}');"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function eliminarMascota(url) {
+    iziToast.question({
+      timeout: 15000,
+      close: true,
+      overlay: true,
+      displayMode: 'once',
+      id: 'question',
+      zindex: 999,
+      title: 'CONFIRMACIÓN',
+      message: '¿Está seguro de eliminar la Mascota seleccionada?',
+      position: 'center',
+      buttons: [
+        [
+          '<button><b>SI</b></button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+            window.location.href = url
+          },
+          true,
+        ],
+        [
+          '<button>NO</button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+          },
+        ],
+      ],
+    })
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Editar Atencion</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="border p-4" action="/actualizarAtencion/" method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <input
+            type="hidden"
+            required
+            class="form-control m-1"
+            value="{{atencion.idAtencion_wt}}"
+            name="idAtencion_wt"
+            id="idAtencion_wt"
+          />
+          <div class="col-md-6">
+            <label for="" class="form-label">Mascotas</label>
+            <select
+              name="idMascota_wt"
+              required
+              class="form-control m-1"
+              id="idMascota_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for mascota in mascotas %}
+              <option value="{{mascota.idMascota_wt}}">
+                {{mascota.nombre_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="" class="form-label">Tipo de Atencion</label>
+            <select
+              name="idTipoAtencion_wt"
+              required
+              class="form-control m-1"
+              id="idTipoAtencion_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for tipo in tipoAtenciones %}
+              <option value="{{tipo.idTipoAtencion_wt}}">
+                {{tipo.especialidades_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <script>
+          document.getElementById('idMascota_wt').value =
+            '{{atencion.mascota_wt.idMascota_wt}}'
+          document.getElementById('idTipoAtencion_wt').value =
+            '{{atencion.tipoAtencion_wt.idTipoAtencion_wt}}'
+        </script>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Fecha</label>
+              <input
+                type="date"
+                required
+                class="form-control m-1"
+                value="{{atencion.fecha_wt | date:'Y-m-d'}}"
+                name="fecha_wt"
+                id="fecha_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Descripcion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Tapia"
+                value="{{atencion.descripcion_wt}}"
+                name="descripcion_wt"
+                id="descripcion_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Costo</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 10"
+                value="{{atencion.costo_wt}}"
+                name="costo_wt"
+                id="costo_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Observaciones</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Ninguna"
+                value="{{atencion.observaciones_wt}}"
+                name="observaciones_wt"
+                id="observaciones_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-success">
+            Actualizar</button
+          >&nbsp;&nbsp;
+          <a href="/listaAtencion" class="btn btn-outline-danger"> Cancelar </a>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

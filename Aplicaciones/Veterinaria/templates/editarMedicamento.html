@@ -1,0 +1,140 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Editar Medicamento</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form
+        class="border p-4"
+        action="/actualizarMedicamento/"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <div class="row">
+          <input
+            type="hidden"
+            required
+            class="form-control m-1"
+            value="{{medicamento.idMedicamento_wt}}"
+            name="idMedicamento_wt"
+            id="idMedicamento_wt"
+          />
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1"
+                >Nombre del Medicamento</label
+              >
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Paracetamol"
+                value="{{medicamento.nombre_wt}}"
+                name="nombre_wt"
+                id="nombre_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Descripcion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Analgesico"
+                value="{{medicamento.descripcion_wt}}"
+                name="descripcion_wt"
+                id="descripcion_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Efectos Secundarios</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Ninguno"
+                value="{{medicamento.efectosSecundarios_wt}}"
+                name="efectosSecundarios_wt"
+                id="efectosSecundarios_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Precio</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 10.00"
+                value="{{medicamento.precio_wt}}"
+                name="precio_wt"
+                id="precio_wt"
+              />
+            </div>
+          </div>
+          <div class="m-1">
+            <label for="" class="form-label m-1">Instrucciones</label>
+            <input
+              type="text"
+              required
+              class="form-control m-1"
+              placeholder="Ej. Tomar 1 cada 8 horas"
+              value="{{medicamento.instrucciones_wt}}"
+              name="instrucciones_wt"
+              id="instrucciones_wt"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Medicamento Actual</label>
+              {% if medicamento.imgMedicamento_wt %}
+              <a href="{{medicamento.imgMedicamento_wt.url}}" target="_blank">
+                <img
+                  src="{{medicamento.imgMedicamento_wt.url}}"
+                  alt="Medicamento Actual"
+                  style="max-width: 200px; max-height: 200px"
+                />
+              </a>
+              {% else %}
+              <b>No hay medicamento asociado</b>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1"
+                >Actualizar Medicamento (Opcional)</label
+              >
+              <input
+                type="file"
+                accept="image/*"
+                class="form-control m-1"
+                name="imgMedicamento_wt"
+                id="imgMedicamento_wt"
+              />
+            </div>
+          </div>
+        </div>
+
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-success">
+            Actualizar</button
+          >&nbsp;&nbsp;
+          <a href="/listaMedicamento" class="btn btn-outline-danger">
+            Cancelar
+          </a>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Editar Tipo de Atencion</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="border p-4" action="/actualizarTipoAtencion/" method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <input
+            type="hidden"
+            required
+            class="form-control m-1"
+            value="{{tipoAtencion.idTipoAtencion_wt}}"
+            name="idTipoAtencion_wt"
+            id="idTipoAtencion_wt"
+          />
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Costo</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 20.00"
+                value="{{tipoAtencion.costo_wt}}"
+                name="costo_wt"
+                id="costo_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Especialidades</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Vacunacion"
+                value="{{tipoAtencion.especialidades_wt}}"
+                name="especialidades_wt"
+                id="especialidades_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1"
+                >Disponibilidad de Tiempo</label
+              >
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Si"
+                value="{{tipoAtencion.disponibilidad_wt}}"
+                name="disponibilidad_wt"
+                id="disponibilidad_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Tiempo de Espera</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 24 Horas"
+                value="{{tipoAtencion.tiempoEspera_wt}}"
+                name="tiempoEspera_wt"
+                id="tiempoEspera_wt"
+              />
+            </div>
+          </div>
+          <div class="m-1">
+            <label for="" class="form-label m-1">Comentarios</label>
+            <textarea
+              type="text"
+              required
+              class="form-control m-1"
+              placeholder="Ej. Ninguna"
+              name="comentarios_wt"
+              id="comentarios_wt"
+            >
+  {{tipoAtencion.comentarios_wt}}</textarea
+            >
+          </div>
+        </div>
+
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-success">
+            Actualizar</button
+          >&nbsp;&nbsp;
+          <a href="/listaTipoAtencion" class="btn btn-outline-danger">
+            Cancelar
+          </a>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

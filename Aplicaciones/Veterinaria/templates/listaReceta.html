@@ -1,0 +1,178 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Listado de Atencion al cliente</h1>
+
+<div class="row m-0">
+  <div class="col-md-5">
+    <div class="container w-100">
+      <form class="border p-4" action="/guardarReceta/" method="POST">
+        {% csrf_token %}
+        <h4 class="text-center">Agregar Receta</h4>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="" class="form-label">Atencion</label>
+            <select
+              name="idAtencion_wt"
+              required
+              class="form-control m-1"
+              id="idAtencion_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for atencion in atenciones %}
+              <option value="{{atencion.idAtencion_wt}}">
+                {{atencion.descripcion_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Fecha de emision</label>
+              <input
+                type="date"
+                required
+                class="form-control m-1"
+                value=""
+                name="fechaEmision_wt"
+                id="fechaEmision_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Dosis</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Tapia"
+                value=""
+                name="dosis_wt"
+                id="dosis_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Instrucciones</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Tomar una cada dia"
+                value=""
+                name="instrucciones_wt"
+                id="instrucciones_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Duracion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 4 dias"
+                value=""
+                name="duracion_wt"
+                id="duracion_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-primary">
+            Guardar</button
+          >&nbsp;&nbsp;
+          <button type="reset" name="button" class="btn btn-outline-danger">
+            Cancelar
+          </button>
+        </center>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="container table-responsive">
+      <center>
+        <img src="{% static 'img/logog.jpg' %}" alt="" width="100px" />
+      </center>
+      <table class="table table-striped bordered">
+        <thead>
+          <tr class="table-success">
+            <th class="text-center" scope="col">Id</th>
+            <th class="text-center" scope="col">Atencion</th>
+            <th class="text-center" scope="col">Fecha de emision</th>
+            <th class="text-center" scope="col">Dosis</th>
+            <th class="text-center" scope="col">Instrucciones</th>
+            <th class="text-center" scope="col">Duracion</th>
+            <th class="text-center" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for receta in recetas %}
+          <tr>
+            <td class="text-center">{{receta.idReceta_wt}}</td>
+            <td class="text-center">{{receta.atencion_wt.descripcion_wt }}</td>
+            <td class="text-center">{{receta.fechaEmision_wt }}</td>
+            <td class="text-center">{{receta.dosis_wt }}</td>
+            <td class="text-center">{{receta.instrucciones_wt }}</td>
+            <td class="text-center">{{receta.duracion_wt }}</td>
+            <td class="text-center">
+              <a
+                href="/editarReceta/{{receta.idReceta_wt}}"
+                class="btn btn-outline-warning m-1"
+                >Editar</a
+              >
+              <a
+                href="javascript:void(0);"
+                type="button"
+                class="btn btn-outline-danger m-1"
+                onclick="eliminarReceta('/eliminarReceta/{{receta.idReceta_wt}}');"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function eliminarReceta(url) {
+    iziToast.question({
+      timeout: 15000,
+      close: true,
+      overlay: true,
+      displayMode: 'once',
+      id: 'question',
+      zindex: 999,
+      title: 'CONFIRMACIÓN',
+      message: '¿Está seguro de eliminar la Receta seleccionada?',
+      position: 'center',
+      buttons: [
+        [
+          '<button><b>SI</b></button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+            window.location.href = url
+          },
+          true,
+        ],
+        [
+          '<button>NO</button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+          },
+        ],
+      ],
+    })
+  }
+</script>
+
+{% endblock %}

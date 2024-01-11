@@ -1,0 +1,172 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Listado de Razas</h1>
+
+<div class="row m-0">
+  <div class="col-md-5">
+    <div class="container w-100">
+      <form class="border p-4" action="/guardarRaza/" method="POST">
+        {% csrf_token %}
+        <h4 class="text-center">Registrar Raza</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1"> Nombre</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Golden Retriever"
+                value=""
+                name="nombre_wt"
+                id="nombre_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Descripcion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Perro"
+                value=""
+                name="descripcion_wt"
+                id="descripcion_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Origen</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Aleman"
+                value=""
+                name="origen_wt"
+                id="origen_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Esperanzas de Vida</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 12"
+                value=""
+                name="esperanzaVida_wt"
+                id="esperanzaVida_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="m-1">
+          <label for="" class="form-label m-1">Caracteristicas</label>
+          <textarea
+            class="form-control m-1"
+            required
+            placeholder="Ej. Inteligente"
+            rows="3"
+            name="caracteristica_wt"
+            id="caracteristica_wt"
+          ></textarea>
+        </div>
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-primary">
+            Guardar</button
+          >&nbsp;&nbsp;
+          <button type="reset" name="button" class="btn btn-outline-danger">
+            Cancelar
+          </button>
+        </center>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="container table-responsive">
+      <center>
+        <img src="{% static 'img/logog.jpg' %}" alt="" width="100px" />
+      </center>
+      <table class="table table-striped bordered">
+        <thead>
+          <tr class="table-success">
+            <th class="text-center" scope="col">Id</th>
+            <th class="text-center" scope="col">Nombre Raza</th>
+            <th class="text-center" scope="col">Descripcion</th>
+            <th class="text-center" scope="col">Origen</th>
+            <th class="text-center" scope="col">Esperanza de Vida</th>
+            <th class="text-center" scope="col">Caracteristicas</th>
+            <th class="text-center" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for raza in razas %}
+          <tr>
+            <td class="text-center">{{raza.idRaza_wt }}</td>
+            <td class="text-center">{{raza.nombre_wt }}</td>
+            <td class="text-center">{{raza.descripcion_wt }}</td>
+            <td class="text-center">{{raza.origen_wt }}</td>
+            <td class="text-center">{{raza.esperanzaVida_wt }}</td>
+            <td class="text-center">{{raza.caracteristica_wt }}</td>
+            <td class="text-center">
+              <a
+                href="/editarRaza/{{raza.idRaza_wt}}"
+                class="btn btn-outline-warning m-1"
+                >Editar</a
+              >
+              <a
+                href="javascript:void(0);"
+                type="button"
+                class="btn btn-outline-danger m-1"
+                onclick="eliminarRaza('/eliminarRaza/{{raza.idRaza_wt}}');"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function eliminarRaza(url) {
+    iziToast.question({
+      timeout: 15000,
+      close: true,
+      overlay: true,
+      displayMode: 'once',
+      id: 'question',
+      zindex: 999,
+      title: 'CONFIRMACIÓN',
+      message: '¿Está seguro de eliminar la Raza seleccionada?',
+      position: 'center',
+      buttons: [
+        [
+          '<button><b>SI</b></button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+            window.location.href = url
+          },
+          true,
+        ],
+        [
+          '<button>NO</button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+          },
+        ],
+      ],
+    })
+  }
+</script>
+
+{% endblock %}

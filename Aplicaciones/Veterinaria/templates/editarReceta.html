@@ -1,0 +1,108 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Editar Receta</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="border p-4" action="/actualizarReceta/" method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <input
+            type="hidden"
+            required
+            class="form-control m-1"
+            value="{{receta.idReceta_wt}}"
+            name="idReceta_wt"
+            id="idReceta_wt"
+          />
+          <div class="col-md-12">
+            <label for="" class="form-label">Atencion</label>
+            <select
+              name="idAtencion_wt"
+              required
+              class="form-control m-1"
+              id="idAtencion_wt"
+            >
+              <option value="" class="">-- Seleccione una opcion --</option>
+              {% for atencion in atenciones %}
+              <option value="{{atencion.idAtencion_wt}}">
+                {{atencion.descripcion_wt}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <script>
+          document.getElementById('idAtencion_wt').value =
+            '{{receta.atencion_wt.idAtencion_wt}}'
+        </script>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Fecha de emision</label>
+              <input
+                type="date"
+                required
+                class="form-control m-1"
+                value="{{receta.fechaEmision_wt | date:'Y-m-d'}}"
+                name="fechaEmision_wt"
+                id="fechaEmision_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Dosis</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Tapia"
+                value="{{receta.dosis_wt}}"
+                name="dosis_wt"
+                id="dosis_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Instrucciones</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Tomar una cada dia"
+                value="{{receta.instrucciones_wt}}"
+                name="instrucciones_wt"
+                id="instrucciones_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Duracion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 4 dias"
+                value="{{receta.duracion_wt}}"
+                name="duracion_wt"
+                id="duracion_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-success">
+            Actualizar</button
+          >&nbsp;&nbsp;
+          <a href="/listaReceta" class="btn btn-outline-danger"> Cancelar </a>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Editar Estado Civil</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="border p-4" action="/actualizarEstadoCivil/" method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <input
+            type="hidden"
+            class="form-control m-1"
+            value="{{estadoCivil.idEstadoCivil_wt}}"
+            name="idEstadoCivil_wt"
+            id="idEstadoCivil_wt"
+          />
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Descripcion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Soltero"
+                value="{{estadoCivil.descripcion_wt}}"
+                name="descripcion_wt"
+                id="descripcion_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Edad</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 24"
+                value="{{estadoCivil.edad_wt}}"
+                name="edad_wt"
+                id="edad_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Numero de Hijos</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 3"
+                value="{{estadoCivil.numeroHijos_wt}}"
+                name="numeroHijos_wt"
+                id="numeroHijos_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Tiempo de Estado</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 24"
+                value="{{estadoCivil.tiempoEstado_wt}}"
+                name="tiempoEstado_wt"
+                id="tiempoEstado_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="m-1">
+          <label for="" class="form-label m-1">Actividad</label>
+          <input
+            type="text"
+            required
+            class="form-control m-1"
+            placeholder="Ej. Estudiante"
+            value="{{estadoCivil.actividad_wt}}"
+            name="actividad_wt"
+            id="actividad_wt"
+          />
+        </div>
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-success">
+            Actualizar</button
+          >&nbsp;&nbsp;
+          <a href="/listaEstadoCivil" class="btn btn-outline-danger">
+            Cancelar
+          </a>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,207 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Listado de Medicamentos</h1>
+
+<div class="row m-0">
+  <div class="col-md-5">
+    <div class="container w-100">
+      <form
+        class="border p-4"
+        action="/guardarMedicamento/"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <h4 class="text-center">Registrar Medicamento</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Nombre</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Paracetamol"
+                value=""
+                name="nombre_wt"
+                id="nombre_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Descripcion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Analgesico"
+                value=""
+                name="descripcion_wt"
+                id="descripcion_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Efectos Secundarios</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Ninguno"
+                value=""
+                name="efectosSecundarios_wt"
+                id="efectosSecundarios_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Precio</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 10"
+                value=""
+                name="precio_wt"
+                id="precio_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="" class="form-label m-1">Instrucciones</label>
+            <input
+              type="text"
+              required
+              class="form-control m-1"
+              placeholder="Ej. Tomar 1 cada 8 horas"
+              value=""
+              name="instrucciones_wt"
+              id="instrucciones_wt"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="" class="form-label m-1">Imagen Medicamento</label>
+            <input
+              accept="image/*"
+              type="file"
+              required
+              class="form-control m-1"
+              value=""
+              name="imgMedicamento_wt"
+              id="imgMedicamento_wt"
+            />
+          </div>
+        </div>
+
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-primary">
+            Guardar</button
+          >&nbsp;&nbsp;
+          <button type="reset" name="button" class="btn btn-outline-danger">
+            Cancelar
+          </button>
+        </center>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="container table-responsive">
+      <center class="logos">
+        <img src="{% static 'img/logog.jpg' %}" alt="" width="100px" />
+      </center>
+      <table class="table table-striped bordered">
+        <thead>
+          <tr class="table-success">
+            <th class="text-center" scope="col">Id</th>
+            <th class="text-center" scope="col">Nombre</th>
+            <th class="text-center" scope="col">Descripcion</th>
+            <th class="text-center" scope="col">Efectos Secundarios</th>
+            <th class="text-center" scope="col">Precio</th>
+            <th class="text-center" scope="col">Instrucciones</th>
+            <th class="text-center" scope="col">Imagen</th>
+            <th class="text-center" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for medicamento in medicamentos %}
+          <tr>
+            <td class="text-center">{{medicamento.idMedicamento_wt }}</td>
+            <td class="text-center">{{medicamento.nombre_wt }}</td>
+            <td class="text-center">{{medicamento.descripcion_wt }}</td>
+            <td class="text-center">{{medicamento.efectosSecundarios_wt }}</td>
+            <td class="text-center">{{medicamento.precio_wt }}</td>
+            <td class="text-center">{{medicamento.instrucciones_wt }}</td>
+            <td class="text-center">
+              {% if medicamento.imgMedicamento_wt %}
+              <a href="{{medicamento.imgMedicamento_wt.url}}" target="_blank">
+                <img
+                  src="{{medicamento.imgMedicamento_wt.url}}"
+                  alt=""
+                  width="50px"
+                />
+              </a>
+              {% else %}
+              <b>No existe Imagen</b>
+              {% endif %}
+            </td>
+            <td class="text-center">
+              <a
+                href="/editarMedicamento/{{medicamento.idMedicamento_wt}}"
+                class="btn btn-outline-warning m-1"
+                >Editar</a
+              >
+              <a
+                href="javascript:void(0);"
+                type="button"
+                class="btn btn-outline-danger m-1"
+                onclick="eliminarMedicamento('/eliminarMedicamento/{{medicamento.idMedicamento_wt}}');"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function eliminarMedicamento(url) {
+    iziToast.question({
+      timeout: 15000,
+      close: true,
+      overlay: true,
+      displayMode: 'once',
+      id: 'question',
+      zindex: 999,
+      title: 'CONFIRMACIÓN',
+      message: '¿Está seguro de eliminar el Medicamento seleccionado?',
+      position: 'center',
+      buttons: [
+        [
+          '<button><b>SI</b></button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+            window.location.href = url
+          },
+          true,
+        ],
+        [
+          '<button>NO</button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+          },
+        ],
+      ],
+    })
+  }
+</script>
+
+{% endblock %}

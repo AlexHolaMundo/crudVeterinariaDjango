@@ -1,0 +1,173 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Listado de Estado Civil</h1>
+
+<div class="row m-0">
+  <div class="col-md-5">
+    <div class="container w-100">
+      <form class="border p-4" action="/guardarEstadoCivil/" method="POST">
+        {% csrf_token %}
+        <h4 class="text-center">Agregar Estado Civil</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Descripcion</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Soltero"
+                value=""
+                name="descripcion_wt"
+                id="descripcion_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Edad</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 24"
+                value=""
+                name="edad_wt"
+                id="edad_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Numero de Hijos</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 3"
+                value=""
+                name="numeroHijos_wt"
+                id="numeroHijos_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Tiempo del Estado</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 24"
+                value=""
+                name="tiempoEstado_wt"
+                id="tiempoEstado_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="m-1">
+          <label for="" class="form-label m-1">Actividad</label>
+          <input
+            type="text"
+            required
+            class="form-control m-1"
+            placeholder="Ej. Estudiante"
+            value=""
+            name="actividad_wt"
+            id="actividad_wt"
+          />
+        </div>
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-primary">
+            Guardar</button
+          >&nbsp;&nbsp;
+          <button type="reset" name="button" class="btn btn-outline-danger">
+            Cancelar
+          </button>
+        </center>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="container table-responsive">
+      <center>
+        <img src="{% static 'img/logog.jpg' %}" alt="" width="100px" />
+      </center>
+      <table class="table table-striped bordered">
+        <thead>
+          <tr class="table-success">
+            <th class="text-center" scope="col">Id</th>
+            <th class="text-center" scope="col">Descripcion</th>
+            <th class="text-center" scope="col">Edad</th>
+            <th class="text-center" scope="col">Numero de Hijos</th>
+            <th class="text-center" scope="col">Tiempo de Estado</th>
+            <th class="text-center" scope="col">Actividad</th>
+            <th class="text-center" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for estado in estadoCivil %}
+          <tr>
+            <td class="text-center">{{estado.idEstadoCivil_wt }}</td>
+            <td class="text-center">{{estado.descripcion_wt }}</td>
+            <td class="text-center">{{estado.edad_wt }}</td>
+            <td class="text-center">{{estado.numeroHijos_wt }}</td>
+            <td class="text-center">{{estado.tiempoEstado_wt }}</td>
+            <td class="text-center">{{estado.actividad_wt }}</td>
+            <td class="text-center">
+              <a
+                href="/editarEstadoCivil/{{estado.idEstadoCivil_wt}}"
+                class="btn btn-outline-warning m-1"
+                >Editar</a
+              >
+              <a
+                href="javascript:void(0);"
+                type="button"
+                class="btn btn-outline-danger m-1"
+                onclick="eliminarEstadoCivil('/eliminarEstadoCivil/{{estado.idEstadoCivil_wt}}');"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function eliminarEstadoCivil(url) {
+    iziToast.question({
+      timeout: 15000,
+      close: true,
+      overlay: true,
+      displayMode: 'once',
+      id: 'question',
+      zindex: 999,
+      title: 'CONFIRMACIÓN',
+      message: '¿Está seguro de eliminar el Estado Civil seleccionado?',
+      position: 'center',
+      buttons: [
+        [
+          '<button><b>SI</b></button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+            window.location.href = url
+          },
+          true,
+        ],
+        [
+          '<button>NO</button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+          },
+        ],
+      ],
+    })
+  }
+</script>
+
+{% endblock %}

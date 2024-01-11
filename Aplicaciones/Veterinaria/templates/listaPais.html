@@ -1,0 +1,212 @@
+{% extends "./plantilla.html" %} {% block contenido %} {% load static %}
+<h1 class="text-center">Listado de Paises</h1>
+
+<div class="row m-0">
+  <div class="col-md-5">
+    <div class="container w-100">
+      <form
+        class="border p-4"
+        action="/guardarPais/"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <h4 class="text-center">Registrar Pais</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Nombre</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Ecuador"
+                value=""
+                name="nombre_wt"
+                id="nombre_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Capital</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Quito"
+                value=""
+                name="capital_wt"
+                id="capital_wt"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Poblacion</label>
+              <input
+                type="number"
+                required
+                class="form-control m-1"
+                placeholder="Ej. 1000000000"
+                value=""
+                name="poblacion_wt"
+                id="poblacion_wt"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="m-1">
+              <label for="" class="form-label m-1">Idioma</label>
+              <input
+                type="text"
+                required
+                class="form-control m-1"
+                placeholder="Ej. Castellano"
+                value=""
+                name="idioma_wt"
+                id="idioma_wt"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="m-1">
+                <label for="" class="form-label m-1">Moneda</label>
+                <input
+                  type="text"
+                  required
+                  class="form-control m-1"
+                  placeholder="Ej. Dolar"
+                  value=""
+                  name="moneda_wt"
+                  id="moneda_wt"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="m-1">
+                <label for="" class="form-label m-1">Moneda</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  required
+                  class="form-control m-1"
+                  value=""
+                  name="imgBandera_wt"
+                  id="imgBandera_wt"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <center class="m-4">
+          <button type="submit" name="button" class="btn btn-outline-primary">
+            Guardar</button
+          >&nbsp;&nbsp;
+          <button type="reset" name="button" class="btn btn-outline-danger">
+            Cancelar
+          </button>
+        </center>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="container table-responsive">
+      <center>
+        <img src="{% static 'img/logog.jpg' %}" alt="" width="100px" />
+      </center>
+      <table class="table table-striped bordered">
+        <thead>
+          <tr class="table-success">
+            <th class="text-center" scope="col">Id</th>
+            <th class="text-center" scope="col">Nombre</th>
+            <th class="text-center" scope="col">Capital</th>
+            <th class="text-center" scope="col">Poblacion</th>
+            <th class="text-center" scope="col">Idioma</th>
+            <th class="text-center" scope="col">Moneda</th>
+            <th class="text-center" scope="col">Bandera</th>
+            <th class="text-center" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for pais in paises %}
+          <tr>
+            <td class="text-center">{{pais.idPais_wt }}</td>
+            <td class="text-center">{{pais.nombre_wt }}</td>
+            <td class="text-center">{{pais.capital_wt }}</td>
+            <td class="text-center">{{pais.poblacion_wt }}</td>
+            <td class="text-center">{{pais.idioma_wt }}</td>
+            <td class="text-center">{{pais.moneda_wt }}</td>
+            <td class="text-center">
+              {% if pais.imgBandera_wt %}
+              <a href="{{pais.imgBandera_wt.url}}" target="blank">
+                <img
+                  src="{{pais.imgBandera_wt.url}}"
+                  alt=""
+                  width="50px"
+                  height="50px"
+                />
+              </a>
+              {% else %}
+              <b>No existe Imagen</b>
+              {% endif %}
+            </td>
+            <td class="text-center">
+              <a
+                href="/editarPais/{{pais.idPais_wt}}"
+                class="btn btn-outline-warning m-1"
+                >Editar</a
+              >
+              <a
+                href="javascript:void(0);"
+                type="button"
+                class="btn btn-outline-danger m-1"
+                onclick="eliminarPais('/eliminarPais/{{pais.idPais_wt}}');"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function eliminarPais(url) {
+    iziToast.question({
+      timeout: 15000,
+      close: true,
+      overlay: true,
+      displayMode: 'once',
+      id: 'question',
+      zindex: 999,
+      title: 'CONFIRMACIÓN',
+      message: '¿Está seguro de eliminar el Pais seleccionado?',
+      position: 'center',
+      buttons: [
+        [
+          '<button><b>SI</b></button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+            window.location.href = url
+          },
+          true,
+        ],
+        [
+          '<button>NO</button>',
+          function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+          },
+        ],
+      ],
+    })
+  }
+</script>
+
+{% endblock %}
